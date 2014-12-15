@@ -1,0 +1,16 @@
+function queryNN = Query_FromIndex(queryInputTimeseries,datasetPath,K)
+%file specifications 
+%first line contains K - no.
+%second line contains N
+currentPath = cd;
+cppFilename = 'xyz.cpp';
+cppFilepath = fullfile(currentPath,cppFilename);
+
+cd(datasetPath);
+%issue system commands from here
+system('...');
+
+%process the output data
+M = dlmread('queryOutput_fromIndex.dat');
+queryNN = M;
+end

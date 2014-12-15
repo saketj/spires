@@ -1,0 +1,9 @@
+function queryNN = Euclidean_Nearest_Neighbors(queryInputTimeseries,timeseriesData,K)
+N = size(queryInputTimeseries,1);
+T = size(timeseriesData,1);
+queryNN = size(N,2*K);
+for i = 1:N
+    dist = zeros(T,1);
+    for j = 1:T
+        ts1 = queryInputTimeseries
+        dist = 

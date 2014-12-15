@@ -1,0 +1,31 @@
+function queryOutputData = query_database(queryInputTimeseries,datasetPath,K)
+
+[timeseriesData infoTags metadata] = loadDataset(datasetPath);
+
+%get the output from the index file after sending the query
+queryNN = Euclidean_Nearest_Neighbors(queryInputTimeseries,timeseriesData,K);
+%%%%%
+
+N = size(queryInputTimeseries,1);
+queryOutputData = cell(N,1);
+for i = 1:N
+    outputData = struct;
+    outputData.userIds = cell(1,K);
+    outputData.filenames = cell(1,K);
+    outputData.filepaths = cell(1,K);
+    outputData.timeseries = cell(1,K);
+    outputData.nodeIds = cell(1,K);
+    outputData.distances = cell(1,K);
+
+    outputNN = queryNN(i,:);
+    for j = 1:K
+        nodeId = outputNN(2*j-1);
+        outputData.nodeIds{j} = nodeId;
+        outputData.distances{j} = outputNN(2*j);
+        outputData.userIds{j} = infoTags{nodeId}.userId;
+        outputData.filenames{j} = infoTags{nodeId}.filename;
+        outputData.filepaths{j} = infoTags{nodeId}.filepath;
+        outputData.timeseries{j} = timeseriesData(nodeId,:);
+    end
+    queryOutputData{i} = outputData;
+end
